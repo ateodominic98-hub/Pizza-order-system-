@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pizza order</title>
+</head>
+<style>
+  
+  body{
+    margin:0px;
+    font-family:arial;
+    background-color:lightblue;
+    color:white;
+  }
+    
+    nav{
+     background-color:lightgrey;
+      width:80%;
+      margin:30px auto;
+       padding:20px;
+      
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+
+      position:relative; /*fixed */
+      top:0;
+    
+      border-radius:5px;
+  }
+      .container{
+        text-align:center;
+        margin:50px auto;
+        padding:30px;
+        width:60%;
+        
+        background:rgba(225,225,225,0.2);
+      ;
+      backdrop-filter:blur(10px);
+       
+       border-radius:20px;
+        box-shadow:0 40px 20px rgba(0,0,0,0.2);
+      }
+    input,select,submit{
+      padding:10px;
+      margin:8px;
+      width:80%;
+      border-radius:8px;
+      border:none;
+    }
+    
+    button{
+      background:#ff4d4d;
+      color:white;
+      cursor:pointer;
+    }
+</style>
+
+<body>
+  <!--Navigation bar-->
+  <nav>
+  <a href="index.html">HOME</a>
+  <a href="menu.html">MENU</a>
+  <a href="about.html">ABOUT</a>
+  <a href="contact.html">CONTACT</a>
+  </nav>
+  <div class="container">
+    
+    <h1><i>PIZZA ORDER</i></h1>
+    
+    <p><strong>Affordable and delicious</strong> pizza for all
+    </p>
+    
+    <form id="orderForm">
+  
+  <input type="text" id="name" placeholder="enter your name"required><br><br>
+  
+  <input type="tel" id="phone" placeholder="phone number"required><br><br>
+  
+  <select id="pizza">
+    <option>cheese pizza</option>
+    <option> chicken pizza</option>
+    <option>pepperoni</option>
+    <option>veggie pizza</option>
+  </select><br><br>
+  
+  
+  <input type="number" id="quantity" placeholder="Quantity" min="1"required><br><br>
+  <button type="button" onclick="sendOrder()">submit</button>
+  
+  </form>
+ 
+ </body>
+ <script>
+function sendOrder() {
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const pizza = document.getElementById("pizza").value;
+  const quantity = document.getElementById("quantity").value;
+
+  if (!name || !phone || !quantity) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const order =
+`🍕 NEW ORDER
+Name: ${name}
+Phone: ${phone}
+Pizza: ${pizza}
+Quantity: ${quantity}`;
+
+  const restaurantNumber = "233542884499";
+
+  const url =
+  "https://wa.me/" + restaurantNumber + "?text=" + encodeURIComponent(order);
+
+  // open WhatsApp
+  location.href = url;
+}
+</script>
+
+</html>

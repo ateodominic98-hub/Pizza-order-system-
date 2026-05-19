@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pizza Menu</title>
+
+<style>
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:lightblue;
+  text-align:center;
+}
+
+nav{
+  background:lightgrey;
+  padding:20px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.menu{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:20px;
+  margin-top:40px;
+}
+
+.card{
+  background:white;
+  width:250px;
+  padding:15px;
+  border-radius:15px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.card img{
+  width:100%;
+  border-radius:10px;
+}
+
+button{
+  background:red;
+  color:white;
+  border:none;
+  padding:10px;
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="menu.html">MENU</a>
+  <a href="about.html">ABOUT</a>
+  <a href="contact.html">CONTACT</a>
+</nav>
+
+<h1>🍕 OUR MENU</h1>
+
+<div class="menu">
+
+  <div class="card">
+    <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=500">
+    <h3>Cheese Pizza</h3>
+    <p>GH₵150</p>
+    
+    <input type="number" id="qty-cheese" min="1" value="1">
+<button onclick="order('Cheese Pizza', 150, 'qty-cheese')">
+  Order Now
+</button>
+    </div>
+    
+    <div class="card">
+    <img src="https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=500">
+    <h3>Chicken Pizza</h3>
+    <p>GH₵170</p>
+    
+    <input type="number" id="qty-chicken" min="1" value="1">
+    <button onclick="order('Chicken Pizza', 170, 'qty-chicken')">
+  Order Now
+</button>
+    
+  </div>
+
+  <div class="card">
+    <img src="https://images.pexels.com/photos/1596888/pexels-photo-1596888.jpeg?auto=compress&cs=tinysrgb&w=500">
+    <h3>Pepperoni Pizza</h3>
+    <p>GH₵180</p>
+    
+    <input type="number" id="qty-pepperoni" min="1" value="1">
+    <button onclick="order('Pepperoni Pizza', 180, 'qty-pepperoni')">
+  Order Now
+</button>
+    
+  </div>
+  
+  <div class="card">
+    <img src="https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=500">
+    <h3>Veggie Pizza</h3>
+    <p>GH₵180</p>
+    
+    <input type="number" id="qty-veggie" min="1" value="1">
+   <button onclick="order('Veggie Pizza', 180, 'qty-veggie')">
+  Order Now
+</button>
+    
+    </div>
+
+</div>
+
+</body>
+<script>
+  function order(pizza, price, qtyId) {
+    
+    const number = "233542884499";
+    
+    const qtyElement = document.getElementById(qtyId);
+    
+    if (!qtyElement) {
+      alert("Error: quantity field not found");
+      return;
+    }
+    
+    const quantity = qtyElement.value || 1;
+    
+    const total = price * quantity;
+    
+    const message =
+      `🍕 NEW ORDER
+
+Pizza: ${pizza}
+Price: GH₵${price}
+Quantity: ${quantity}
+Total: GH₵${total}`;
+    
+    const url =
+      "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+    
+    window.location.href = url;
+  }
+</script>    
+</html>
