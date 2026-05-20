@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background: #f4f4f4;
+      margin: 0;
+      text-align: center;
+    }
+
+    nav{
+      background: black;
+      color: white;
+      padding: 15px;
+    }
+
+    .box{
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .order{
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    button{
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete{
+      background: red;
+      color: white;
+      float: right;
+    }
+
+    .clear{
+      background: black;
+      color: white;
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <h2>🧑‍💼 ADMIN DASHBOARD</h2>
+</nav>
+
+<div class="box">
+  <h3>All Orders</h3>
+  <div id="ordersBox"></div>
+
+  <button class="clear" onclick="clearAll()">Clear All Orders</button>
+</div>
+
+<script>
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+function loadOrders(){
+  let box = document.getElementById("ordersBox");
+  box.innerHTML = "";
+
+  if(orders.length === 0){
+    box.innerHTML = "<p>No orders yet</p>";
+    return;
+  }
+
+  orders.forEach((order, index)=>{
+    box.innerHTML += `
+      <div class="order">
+        <b>ID:</b> ${order.id}<br>
+        <b>Time:</b> ${order.time}<br>
+        <b>Method:</b> ${order.method}<br>
+        <b>Total:</b> GH₵${order.total}<br><br>
+
+        ${order.items.map(i => 
+          `${i.name} (${i.qty}x GH₵${i.price})`
+        ).join("<br>")}
+
+        <button class="delete" onclick="deleteOrder(${index})">X</button>
+      </div>
+    `;
+  });
+}
+
+function deleteOrder(index){
+  orders.splice(index, 1);
+  localStorage.setItem("orders", JSON.stringify(orders));
+  loadOrders();
+}
+
+function clearAll(){
+  localStorage.removeItem("orders");
+  loadOrders();
+}
+
+loadOrders();
+</script>
+
+</body>
+</html>

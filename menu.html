@@ -5,148 +5,231 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pizza Menu</title>
-
-<style>
-
-body{
-  margin:0;
-  font-family:Arial;
-  background:lightblue;
-  text-align:center;
-}
-
-nav{
-  background:lightgrey;
-  padding:20px;
-  display:flex;
-  justify-content:space-around;
-}
-
-.menu{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-  margin-top:40px;
-}
-
-.card{
-  background:white;
-  width:250px;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
-}
-
-.card img{
-  width:100%;
-  border-radius:10px;
-}
-
-button{
-  background:red;
-  color:white;
-  border:none;
-  padding:10px;
-  width:100%;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-</style>
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: lightblue;
+      text-align: center;
+    }
+    
+    nav {
+      background: lightgrey;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    
+    .card {
+      background: white;
+      width: 250px;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    
+    button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    
+    /* CART BUTTON */
+    #cartBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: red;
+      color: white;
+      padding: 15px;
+      border-radius: 50px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    
+    #cartBtn span {
+      background: white;
+      color: red;
+      padding: 3px 8px;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    
+    /* CART MODAL */
+    #cartModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    
+    .cartBox {
+      background: white;
+      width: 90%;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: left;
+    }
+    
+    .removeBtn {
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 3px 8px;
+      margin-left: 10px;
+    }
+  </style>
 </head>
 
 <body>
-
-<nav>
-  <a href="index.html">HOME</a>
-  <a href="menu.html">MENU</a>
-  <a href="about.html">ABOUT</a>
-  <a href="contact.html">CONTACT</a>
-</nav>
-
-<h1>🍕 OUR MENU</h1>
-
-<div class="menu">
-
-  <div class="card">
-    <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=500">
-    <h3>Cheese Pizza</h3>
-    <p>GH₵150</p>
+  
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="menu.html">MENU</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </nav>
+  
+  <h1>🍕 OUR MENU</h1>
+  
+  <div class="menu">
     
-    <input type="number" id="qty-cheese" min="1" value="1">
-<button onclick="order('Cheese Pizza', 150, 'qty-cheese')">
-  Order Now
-</button>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg">
+      <h3>Cheese Pizza</h3>
+      <p>GH₵150</p>
+      <input type="number" id="qty-cheese" value="1" min="1">
+      <button onclick="addToCart('Cheese Pizza',150,'qty-cheese')">Add to Cart</button>
     </div>
     
     <div class="card">
-    <img src="https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=500">
-    <h3>Chicken Pizza</h3>
-    <p>GH₵170</p>
+      <img src="https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg">
+      <h3>Chicken Pizza</h3>
+      <p>GH₵170</p>
+      <input type="number" id="qty-chicken" value="1" min="1">
+      <button onclick="addToCart('Chicken Pizza',170,'qty-chicken')">Add to Cart</button>
+    </div>
     
-    <input type="number" id="qty-chicken" min="1" value="1">
-    <button onclick="order('Chicken Pizza', 170, 'qty-chicken')">
-  Order Now
-</button>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/1596888/pexels-photo-1596888.jpeg">
+      <h3>Pepperoni Pizza</h3>
+      <p>GH₵180</p>
+      <input type="number" id="qty-pepperoni" value="1" min="1">
+      <button onclick="addToCart('Pepperoni Pizza',180,'qty-pepperoni')">Add to Cart</button>
+    </div>
     
-  </div>
-
-  <div class="card">
-    <img src="https://images.pexels.com/photos/1596888/pexels-photo-1596888.jpeg?auto=compress&cs=tinysrgb&w=500">
-    <h3>Pepperoni Pizza</h3>
-    <p>GH₵180</p>
-    
-    <input type="number" id="qty-pepperoni" min="1" value="1">
-    <button onclick="order('Pepperoni Pizza', 180, 'qty-pepperoni')">
-  Order Now
-</button>
+    <div class="card">
+      <img src="https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg">
+      <h3>Veggie Pizza</h3>
+      <p>GH₵180</p>
+      <input type="number" id="qty-veggie" value="1" min="1">
+      <button onclick="addToCart('Veggie Pizza',180,'qty-veggie')">Add to Cart</button>
+    </div>
     
   </div>
   
-  <div class="card">
-    <img src="https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=500">
-    <h3>Veggie Pizza</h3>
-    <p>GH₵180</p>
-    
-    <input type="number" id="qty-veggie" min="1" value="1">
-   <button onclick="order('Veggie Pizza', 180, 'qty-veggie')">
-  Order Now
-</button>
-    
+  <!-- CART BUTTON -->
+  <div id="cartBtn" onclick="openCart()">
+    🛒 <span id="cartCount">0</span>
+  </div>
+  
+  <!-- CART MODAL -->
+  <div id="cartModal">
+    <div class="cartBox">
+      <h2>Your Cart 🛒</h2>
+      <div id="cartItems"></div>
+      
+      <button onclick="goToPayment()" style="background:green;color:white;margin-top:10px;">
+        Go to Payment
+      </button>
+      
+      <button onclick="closeCart()" style="background:red;color:white;margin-top:10px;">
+        Close
+      </button>
     </div>
-
-</div>
-
-</body>
-<script>
-  function order(pizza, price, qtyId) {
+  </div>
+  
+  <script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     
-    const number = "233542884499";
-    
-    const qtyElement = document.getElementById(qtyId);
-    
-    if (!qtyElement) {
-      alert("Error: quantity field not found");
-      return;
+    function addToCart(name, price, qtyId) {
+      let qty = parseInt(document.getElementById(qtyId).value) || 1;
+      
+      cart.push({ name, price, qty });
+      
+      localStorage.setItem("cart", JSON.stringify(cart));
+      
+      updateCart();
+      alert(name + " added 🛒");
     }
     
-    const quantity = qtyElement.value || 1;
+    function updateCart() {
+      let totalQty = 0;
+      let box = document.getElementById("cartItems");
+      box.innerHTML = "";
+      
+      cart.forEach((item, i) => {
+        totalQty += item.qty;
+        
+        box.innerHTML += `
+      <div style="display:flex;justify-content:space-between;margin:10px 0;">
+        <div>
+          <b>${item.name}</b><br>
+          ${item.qty} × GH₵${item.price}
+        </div>
+        <button class="removeBtn" onclick="removeItem(${i})">X</button>
+      </div>
+    `;
+      });
+      
+      document.getElementById("cartCount").innerText = totalQty;
+    }
     
-    const total = price * quantity;
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCart();
+    }
     
-    const message =
-      `🍕 NEW ORDER
+    function openCart() {
+      document.getElementById("cartModal").style.display = "block";
+    }
+    
+    function closeCart() {
+      document.getElementById("cartModal").style.display = "none";
+    }
+    
+    function goToPayment() {
+      window.location.href = "payment.html";
+    }
+    
+    updateCart();
+  </script>
+  
+</body>
 
-Pizza: ${pizza}
-Price: GH₵${price}
-Quantity: ${quantity}
-Total: GH₵${total}`;
-    
-    const url =
-      "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
-    
-    window.location.href = url;
-  }
-</script>    
 </html>

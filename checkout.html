@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background: lightblue;
+      margin: 0;
+      text-align: center;
+    }
+
+    nav{
+      background: lightgrey;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .container{
+      width: 90%;
+      max-width: 600px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button{
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .remove{
+      background: red;
+      color: white;
+    }
+
+    .order{
+      background: green;
+      color: white;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .total{
+      font-size: 20px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="menu.html">MENU</a>
+  <a href="contact.html">CONTACT</a>
+</nav>
+<a href="menu.html">
+  <button style="background:blue;color:white;margin-top:10px;">
+    Go Back to Menu 🍕
+  </button>
+</a>
+
+<div class="container">
+
+  <h1>🧾 Checkout</h1>
+
+  <div id="cartBox"></div>
+
+  <div class="total" id="totalBox"></div>
+
+  <button class="order" onclick="sendOrder()">
+    Send Order on WhatsApp 📲
+  </button>
+
+</div>
+
+<script>
+let cart = [];
+
+try {
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+} catch (e) {
+  cart = [];
+}
+
+function renderCart() {
+  const box = document.getElementById("cartBox");
+  box.innerHTML = "";
+  
+  let total = 0;
+  
+  if (cart.length === 0) {
+    box.innerHTML = "<p>Your cart is empty 🛒</p>";
+    document.getElementById("totalBox").innerText = "";
+    return;
+  }
+  
+  cart.forEach((item, index) => {
+    const itemTotal = item.price * item.qty;
+    total += itemTotal;
+    
+    box.innerHTML += `
+      <div class="item">
+        <div>
+          <b>${item.name}</b><br>
+          GH₵${item.price} × ${item.qty} = GH₵${itemTotal}
+        </div>
+        <button class="remove" onclick="removeItem(${index})">
+          X
+        </button>
+      </div>
+    `;
+  });
+  
+  document.getElementById("totalBox").innerText =
+    "Total: GH₵" + total;
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function sendOrder() {
+  if (cart.length === 0) {
+    alert("Cart is empty!");
+    return;
+  }
+  
+  let message = "🍕 NEW ORDER\n\n";
+  let total = 0;
+  
+  cart.forEach(item => {
+    let itemTotal = item.price * item.qty;
+    total += itemTotal;
+    
+    message += `${item.name} - ${item.qty} × GH₵${item.price} = GH₵${itemTotal}\n`;
+  });
+  
+  message += `\nTOTAL: GH₵${total}`;
+  
+  const number = "233542884499";
+  
+  const url =
+    "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+  
+  window.location.href = url;
+}
+renderCart();
+window.onfocus = renderCart;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Order Receipt</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background: lightblue;
+      margin: 0;
+      text-align: center;
+    }
+
+    .box{
+      width: 90%;
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    h1{
+      color: green;
+    }
+
+    .item{
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button{
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      background: green;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>✅ Order Successful</h1>
+
+  <p>Thank you! Your order has been received.</p>
+
+  <div id="receiptBox"></div>
+
+  <h2 id="totalBox"></h2>
+
+  <button onclick="goHome()">
+    Back to Menu 🍕
+  </button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadReceipt(){
+  let box = document.getElementById("receiptBox");
+  box.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item=>{
+    let itemTotal = item.price * item.qty;
+    total += itemTotal;
+
+    box.innerHTML += `
+      <div class="item">
+        ${item.name} - ${item.qty} × GH₵${item.price} = GH₵${itemTotal}
+      </div>
+    `;
+  });
+
+  document.getElementById("totalBox").innerText = "TOTAL: GH₵" + total;
+
+  // clear cart after order
+  localStorage.removeItem("cart");
+}
+
+function goHome(){
+  window.location.href = "menu.html";
+}
+
+loadReceipt();
+</script>
+
+</body>
+</html>

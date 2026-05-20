@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background: lightblue;
+      margin: 0;
+      text-align: center;
+    }
+
+    nav{
+      background: lightgrey;
+      padding: 20px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .box{
+      width: 90%;
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .item{
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    button{
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .pay{
+      background: green;
+      color: white;
+    }
+
+    .cash{
+      background: orange;
+      color: white;
+    }
+
+    .back{
+      background: red;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <a href="index.html">HOME</a>
+  <a href="menu.html">MENU</a>
+  <a href="contact.html">CONTACT</a>
+</nav>
+
+<div class="box">
+  <h1>💳 Payment</h1>
+
+  <div id="orderBox"></div>
+
+  <h2 id="totalBox"></h2>
+
+  <h3>Select Payment Method</h3>
+
+  <button class="pay" onclick="payNow()">
+    📲 Pay via Mobile Money (WhatsApp Order)
+  </button>
+
+  <button class="cash" onclick="cashOnDelivery()">
+    💵 Cash on Delivery
+  </button>
+
+  <button class="back" onclick="goBack()">
+    ⬅ Back to Menu
+  </button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function loadOrder(){
+  let box = document.getElementById("orderBox");
+  box.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(item=>{
+    let itemTotal = item.price * item.qty;
+    total += itemTotal;
+
+    box.innerHTML += `
+      <div class="item">
+        ${item.name} - ${item.qty} × GH₵${item.price} = GH₵${itemTotal}
+      </div>
+    `;
+  });
+
+  document.getElementById("totalBox").innerText = "TOTAL: GH₵" + total;
+}
+function sendWhatsAppOrder(method) {
+  let number = "233542884499";
+  
+  let message = "🍕 NEW ORDER\n\n";
+  let total = 0;
+  
+  cart.forEach(item => {
+    let itemTotal = item.price * item.qty;
+    total += itemTotal;
+    
+    message += `${item.name} - ${item.qty} × GH₵${item.price} = GH₵${itemTotal}\n`;
+  });
+  
+  message += `\nTOTAL: GH₵${total}`;
+  message += `\nPAYMENT METHOD: ${method}`;
+  
+  // ✅ SAVE ORDER (ADMIN SYSTEM)
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  
+  orders.push({
+    id: "ORD-" + Math.floor(Math.random() * 100000),
+    items: cart,
+    method: method,
+    total: total,
+    time: new Date().toLocaleString()
+  });
+  
+  localStorage.setItem("orders", JSON.stringify(orders));
+  
+  // 🧠 IMPORTANT: clear cart HERE (before redirect)
+  localStorage.removeItem("cart");
+  
+  // send to WhatsApp
+  let url = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+  window.location.href = url;
+}
+
+function payNow() {
+  sendWhatsAppOrder("Mobile Money Payment");
+}
+
+function cashOnDelivery() {
+  sendWhatsAppOrder("Cash on Delivery");
+}
+loadOrder();
+
+</script>
+</body>
+</html>
