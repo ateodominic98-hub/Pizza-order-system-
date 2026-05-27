@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About Us</title>
+  <title>Contact Us</title>
 
 <style>
 
@@ -30,7 +30,6 @@ nav {
   justify-content: space-between;
   align-items: center;
   position: relative;
-  z-index: 1000;
 }
 
 .logo {
@@ -80,27 +79,35 @@ nav {
   box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
-img{
-  width:100%;
-  max-width:500px;
-  border-radius:20px;
-  margin-top:20px;
-}
-
 h1{
-  color:white;
+  margin-bottom:20px;
 }
 
 p{
   font-size:18px;
-  line-height:1.7;
+  line-height:1.8;
+}
+
+button{
+  background:green;
+  color:white;
+  border:none;
+  padding:15px 25px;
+  border-radius:10px;
+  font-size:18px;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+button:hover{
+  opacity:0.9;
 }
 
 </style>
 </head>
 
 <body>
-
+  
 <nav>
   
   <h2 class="logo">🍕 Pizza Order</h2>
@@ -118,44 +125,63 @@ p{
     <a href="contact.html">CONTACT</a>
   </div>
   
-</nav>
-<div class="container">
-
-<h1>🍕 About Our Restaurant</h1>
-
-<p>
-Welcome to Pizza Order — your number one place for delicious and affordable pizzas.
-We serve fresh Cheese Pizza, Chicken Pizza, Pepperoni Pizza, and Veggie Pizza made with quality ingredients and lots of love.
-</p>
-
-<p>
-Our goal is to make ordering food fast, easy, and enjoyable for everyone.
-You can order directly through WhatsApp with just one click.
-</p>
-
-<p>
-🕒 Opening Hours:<br>
-Monday - Sunday<br>
-8:00 AM - 11:00 PM
-</p>
-
-<img src="https://images.pexels.com/photos/2619967/pexels-photo-2619967.jpeg?auto=compress&cs=tinysrgb&w=800">
-
-</div>
-<script>
-  function toggleMenu() {
+</nav>    
+    <h1>📞 Contact Us</h1>
     
-    let menu = document.getElementById("navLinks");
+    <p>📍 Location: Accra, Ghana</p>
+    <p>📱 Phone: +233 54 288 4499</p>
+    <p>✉ Email: pizzahub@gmail.com</p>
     
-    if (menu.style.display === "flex") {
-      menu.style.display = "none";
-    } else {
-      menu.style.display = "flex";
-    }
+    <p>
+      🕒 Opening Hours:<br>
+      Monday - Sunday<br>
+      8:00 AM - 11:00 PM
+    </p>
     
+    <button onclick="chatWhatsapp()">
+      Chat on WhatsApp
+    </button>
+    
+    <hr style="margin:25px 0; opacity:0.3;">
+    
+    <h2>📍 Get Directions</h2>
+    
+    <button onclick="openMap()">
+      📍 Open Google Maps
+    </button>
+    
+  </div>
+  
+  <script>
+function toggleMenu(){
+
+  let contact = document.getElementById("navLinks");
+
+  if(contact.style.display === "flex"){
+    contact.style.display = "none";
+  } else {
+    contact.style.display = "flex";
   }
-</script>
 
+}
+    function chatWhatsapp() {
+      const number = "233542884499";
+      
+      const message = "Hello, I want to order pizza.";
+      
+      const url =
+        "https://wa.me/" + number +
+        "?text=" + encodeURIComponent(message);
+      
+      window.location.href = url;
+    }
+function openMap() {
+  const url =
+    "https://www.google.com/maps/search/?api=1&query=Jestbite+Foods+Kintampo";
+  
+  window.location.href = url;
+}    
+  </script>
+  
 </body>
-
 </html>
