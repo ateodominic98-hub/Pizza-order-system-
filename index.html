@@ -1,126 +1,199 @@
 <!DOCTYPE html>
-<html>
-  
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>pizza order</title>
-</head>
-<style>
-  
-  body{
-    margin:0px;
-    font-family:arial;
-    background-color:lightblue;
-    color:white;
-  }
-    
-    nav{
-     background-color:lightgrey;
-      width:80%;
-      margin:30px auto;
-       padding:20px;
-      
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
+<html lang="en">
 
-      position:relative; /*fixed */
-      top:0;
-    
-      border-radius:5px;
-  }
-      .container{
-        text-align:center;
-        margin:50px auto;
-        padding:30px;
-        width:60%;
-        
-        background:rgba(225,225,225,0.2);
-      ;
-      backdrop-filter:blur(10px);
-       
-       border-radius:20px;
-        box-shadow:0 40px 20px rgba(0,0,0,0.2);
-      }
-    input,select,submit{
-      padding:10px;
-      margin:8px;
-      width:80%;
-      border-radius:8px;
-      border:none;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pizza Order System</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: lightblue;
+      color: white;
     }
-    
-    button{
-      background:#ff4d4d;
-      color:white;
-      cursor:pointer;
+
+nav {
+  background: #111;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1000;
+}
+
+.logo {
+  margin: 0;
+}
+
+.home-btn {
+  font-size: 30px;
+  cursor: pointer;
+  display: block;
+}
+
+.nav-links {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: white;
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a {
+  padding: 15px;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-links a:hover {
+  background: #f4f4f4;
+}
+    .container {
+      width: 60%;
+      margin: 40px auto;
+      text-align: center;
+      background: rgba(255,255,255,0.15);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
     }
-</style>
+
+    input, select {
+      width: 80%;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      width: 50%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #ff4d4d;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #e63e3e;
+    }
+  </style>
+</head>
 
 <body>
-  <!--Navigation bar-->
-  <nav>
-  <a href="index.html">HOME</a>
-  <a href="menu.html">MENU</a>
-  <a href="about.html">ABOUT</a>
-  <a href="contact.html">CONTACT</a>
-  </nav>
+
+<nav>
+  
+  <h2 class="logo">🍕 Pizza Order</h2>
+  
+  <!-- Hamburger Button -->
+  <div class="home-btn" onclick="toggleMenu()">
+    ☰
+  </div>
+  
+  <!-- Navigation Links -->
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">HOME</a>
+    <a href="menu.html">MENU</a>
+    <a href="about.html">ABOUT</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+  
+</nav>
   <div class="container">
-    
-    <h1><i>PIZZA ORDER</i></h1>
-    
-    <p><strong>Affordable and delicious</strong> pizza for all
-    </p>
-    
-    <form id="orderForm">
-  
-  <input type="text" id="name" placeholder="enter your name"required><br><br>
-  
-  <input type="tel" id="phone" placeholder="phone number"required><br><br>
-  
-  <select id="pizza">
-    <option>cheese pizza</option>
-    <option> chicken pizza</option>
-    <option>pepperoni</option>
-    <option>veggie pizza</option>
-  </select><br><br>
-  
-  
-  <input type="number" id="quantity" placeholder="Quantity" min="1"required><br><br>
-  <button type="button" onclick="sendOrder()">submit</button>
-  
-  </form>
- 
- </body>
- <script>
-function sendOrder() {
+    <h1>PIZZA ORDER</h1>
+    <p>Affordable and delicious pizza for everyone</p>
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const pizza = document.getElementById("pizza").value;
-  const quantity = document.getElementById("quantity").value;
+    <input type="text" id="name" placeholder="Enter your name" />
+    <input type="tel" id="phone" placeholder="Phone number" />
 
-  if (!name || !phone || !quantity) {
-    alert("Please fill all fields");
-    return;
+    <select id="pizza">
+      <option>Cheese Pizza</option>
+      <option>Chicken Pizza</option>
+      <option>Pepperoni</option>
+      <option>Veggie Pizza</option>
+    </select>
+
+    <input type="number" id="quantity" placeholder="Quantity" min="1" />
+
+    <button onclick="sendOrder()">Submit Order</button>
+  </div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDh9Rye2aR7YMEW8x05Tz4P-5BMoiygmlw",
+  authDomain: "pizza-order-system-80a7a.firebaseapp.com",
+  projectId: "pizza-order-system-80a7a",
+  storageBucket: "pizza-order-system-80a7a.firebasestorage.app",
+  messagingSenderId: "562066801142",
+  appId: "1:562066801142:web:204d617e9795001b7547d7"
+};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
+window.toggleMenu = function(){
+  let menu = document.getElementById("navLinks");
+
+  if(menu.style.display === "flex"){
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
   }
 
-  const order =
-`🍕 NEW ORDER
-Name: ${name}
-Phone: ${phone}
-Pizza: ${pizza}
-Quantity: ${quantity}`;
-
-  const restaurantNumber = "233542884499";
-
-  const url =
-  "https://wa.me/" + restaurantNumber + "?text=" + encodeURIComponent(order);
-
-  // open WhatsApp
-  location.href = url;
 }
-</script>
+    // SEND ORDER FUNCTION
+    window.sendOrder = async function () {
 
+      const name = document.getElementById("name").value;
+      const phone = document.getElementById("phone").value;
+      const pizza = document.getElementById("pizza").value;
+      const quantity = document.getElementById("quantity").value;
+
+      if (!name || !phone || !quantity) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "orders"), {
+          name,
+          phone,
+          pizza,
+          quantity,
+          status: "pending",
+          createdAt: Date.now()
+        });
+
+        alert("Order sent successfully!");
+
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("quantity").value = "";
+
+      } catch (error) {
+        console.error(error);
+        alert("Failed to send order");
+      }
+    };
+  </script>
+
+</body>
 </html>
