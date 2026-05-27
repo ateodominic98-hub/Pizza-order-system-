@@ -20,7 +20,49 @@
       display: flex;
       justify-content: space-around;
     }
-    
+    nav {
+  background: #111;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.logo {
+  margin: 0;
+}
+
+.menu-btn {
+  font-size: 30px;
+  cursor: pointer;
+  display: block;
+}
+
+.nav-links {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  background: white;
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links a {
+  padding: 15px;
+  text-decoration: none;
+  color: black;
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-links a:hover {
+  background: #f4f4f4;
+}
     .menu {
       display: flex;
       flex-wrap: wrap;
@@ -107,17 +149,25 @@
 
 <body>
   
-  <nav>
+<nav>
+  
+  <h2 class="logo">🍕 Pizza Order</h2>
+  
+  <!-- Hamburger Button -->
+  <div class="menu-btn" onclick="toggleMenu()">
+    ☰
+  </div>
+  
+  <!-- Navigation Links -->
+  <div class="nav-links" id="navLinks">
     <a href="index.html">HOME</a>
     <a href="menu.html">MENU</a>
     <a href="about.html">ABOUT</a>
     <a href="contact.html">CONTACT</a>
-  </nav>
+  </div>
   
-  <h1>🍕 OUR MENU</h1>
+</nav>  
   
-  <div class="menu">
-    
     <div class="card">
       <img src="https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg">
       <h3>Cheese Pizza</h3>
@@ -186,6 +236,17 @@
       updateCart();
       alert(name + " added 🛒");
     }
+function toggleMenu(){
+
+  let menu = document.getElementById("navLinks");
+
+  if(menu.style.display === "flex"){
+    menu.style.display = "none";
+  } else {
+    menu.style.display = "flex";
+  }
+
+}
     
     function updateCart() {
       let totalQty = 0;
